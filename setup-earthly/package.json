@@ -1,0 +1,22 @@
+{
+  "name": "setup-earthly",
+  "version": "0.0.0",
+  "private": true,
+  "description": "earthly setup action",
+  "main": "src/setup-earthly.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/earthly/actions.git",
+    "directory": "setup-earthly"
+  },
+  "keywords": [
+    "actions",
+    "earthly",
+    "setup"
+  ],
+  "author": "earthly technologies",
+  "homepage": "https://github.com/earthly/actions",
+  "dependencies": {
+    "@actions/core": "^1.2.6"
+  }
+}
