@@ -1,8 +1,7 @@
 # actions
 GitHub Actions for earthly
 
-Here's an example of how to use earthly in github actions:
-
+To use earthly with hithub actions, create a file under `.github/workflows/ci.yml` with the contents:
 
 ```yml
 name: GitHub Actions CI
@@ -18,7 +17,7 @@ jobs:
     name: example earthly test
     runs-on: ubuntu-latest
     steps:
-      - uses: earthly/actions/setup-earthly@main
+      - uses: earthly/actions/setup-earthly@v1
         with:
           version: v0.5.10
       - uses: actions/checkout@v2
@@ -27,3 +26,4 @@ jobs:
       - name: run the earthly hello world
         run: earthly github.com/earthly/hello-world:main+hello
 ```
+
