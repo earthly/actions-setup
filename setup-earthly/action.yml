@@ -1,0 +1,10 @@
+name: Setup earthly
+description: Installs the Earthly binary
+author: Earthly technologies
+inputs:
+  version:
+    description: 'version of earthly to use.'
+    default: 'latest'
+runs:
+  using: node12
+  main: dist/index.js
