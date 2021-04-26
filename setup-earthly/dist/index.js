@@ -488,7 +488,7 @@ try {
     if (version != 'latest') {
       url = `https://github.com/earthly/earthly/releases/download/${version}/earthly-linux-amd64`
     }
-    installCommand = `sudo /bin/sh -c 'wget ${url} -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'`
+    installCommand = `sudo /bin/sh -c 'wget -q ${url} -O /usr/local/bin/earthly && chmod +x /usr/local/bin/earthly'`
   }
 
   (0,external_child_process_namespaceObject.exec)(installCommand, (error, stdout, stderr) => {
