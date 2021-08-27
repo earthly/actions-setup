@@ -395,21 +395,21 @@ exports.toCommandValue = toCommandValue;
 /***/ 747:
 /***/ ((module) => {
 
-module.exports = require("fs");;
+module.exports = require("fs");
 
 /***/ }),
 
 /***/ 87:
 /***/ ((module) => {
 
-module.exports = require("os");;
+module.exports = require("os");
 
 /***/ }),
 
 /***/ 622:
 /***/ ((module) => {
 
-module.exports = require("path");;
+module.exports = require("path");
 
 /***/ })
 
@@ -459,7 +459,9 @@ module.exports = require("path");;
 /******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
-/******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";/************************************************************************/
+/******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
+/******/ 	
+/************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
@@ -469,7 +471,7 @@ __nccwpck_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
 var core = __nccwpck_require__(249);
 ;// CONCATENATED MODULE: external "child_process"
-const external_child_process_namespaceObject = require("child_process");;
+const external_child_process_namespaceObject = require("child_process");
 ;// CONCATENATED MODULE: ./src/setup-earthly.js
 
 
@@ -501,7 +503,6 @@ try {
     console.log(`stdout: ${stdout}`);
   });
   core.exportVariable('FORCE_COLOR', '1');
-  core.exportVariable('EARTHLY_CI', '1');
 } catch (error) {
   core.setFailed(error.message);
 }
