@@ -28,7 +28,6 @@ try {
     console.log(`stdout: ${stdout}`);
   });
   core.exportVariable('FORCE_COLOR', '1');
-  core.exportVariable('EARTHLY_CI', '1');
 } catch (error) {
   core.setFailed(error.message);
 }
