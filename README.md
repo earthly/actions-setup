@@ -1,5 +1,5 @@
-# actions
-GitHub Actions for earthly
+# actions-setup
+GitHub Actions for setting up earthly
 
 To use earthly with hithub actions, create a file under `.github/workflows/ci.yml` with the contents:
 
@@ -21,6 +21,8 @@ jobs:
         with:
           version: "latest" # or pin to an specific version, e.g. "v0.6.10"
       - uses: actions/checkout@v2
+      - name: Docker login # to avoid dockerhub rate-limiting
+        run: docker login --username "${{ secrets.DOCKERHUB_USERNAME }}" --password "${{ secrets.DOCKERHUB_PASSWORD }}"
       - name: what version is installed?
         run: earthly --version
       - name: run the earthly hello world
