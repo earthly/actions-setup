@@ -1,5 +1,8 @@
 name: Setup earthly
 description: Installs the Earthly binary
+branding:
+  icon: "sunrise"
+  color: "green"
 author: Earthly technologies
 inputs:
   version:
