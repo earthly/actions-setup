@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: earthly/actions-setup@v1
         with:
-          version: v0.5.10
+          version: "latest" # or pin to an specific version, e.g. "v0.6.10"
       - uses: actions/checkout@v2
       - name: what version is installed?
         run: earthly --version
