@@ -1,7 +1,7 @@
 # actions
 GitHub Actions for earthly
 
-To use earthly with hithub actions, create a file under `.github/workflows/ci.yml` with the contents:
+To use earthly with GitHub actions, create a file under `.github/workflows/ci.yml` with the contents:
 
 ```yml
 name: GitHub Actions CI
