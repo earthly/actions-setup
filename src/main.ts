@@ -59,19 +59,11 @@ async function run() {
     }/${pkgName}-${releasePlatform}-${releaseArch}${IS_WINDOWS ? ".exe" : ""}`;
 
     core.debug(`downloading ${buildURL}`);
-    const downloaded = await tc.downloadTool(buildURL);
-    core.debug(`successfully downloaded ${buildURL} to ${destination}`);
+    const binary = path.join(destination, "bin", pkgName);
+    const downloaded = await tc.downloadTool(buildURL, binary);
+    core.debug(`successfully downloaded ${buildURL} to ${downloaded}`);
 
-    await io.mkdirP(path.join(destination, "bin"));
-    core.info(`Successfully created ${path.join(destination, "bin")}`);
-
-    const oldPath = path.join(downloaded);
-    const newPath = path.join(destination, "bin", pkgName);
-
-    await io.mv(oldPath, newPath);
-    core.info(`Successfully renamed ${oldPath} to ${newPath}`);
-
-    await fs.promises.chmod(newPath, 0o755);
+    await fs.promises.chmod(binary, 0o755);
 
     const cachedPath = await tc.cacheDir(
       path.join(destination, "bin"),
