@@ -7,6 +7,8 @@ import * as path from "path";
 import { getVersionObject } from "./lib/get-version";
 import * as semver from "semver";
 
+const IS_WINDOWS = process.platform === "win32";
+
 async function run() {
   try {
     const nodeArchToReleaseArch = {
@@ -52,8 +54,11 @@ async function run() {
         );
       });
 
-    const buildURL = `https://github.com/earthly/earthly/releases/download/${version.tag_name}/${pkgName}-${releasePlatform}-${releaseArch}`;
+    const buildURL = `https://github.com/earthly/earthly/releases/download/${
+      version.tag_name
+    }/${pkgName}-${releasePlatform}-${releaseArch}${IS_WINDOWS ? ".exe" : ""}`;
 
+    core.debug(`downloading ${buildURL}`);
     const downloaded = await tc.downloadTool(buildURL);
     core.debug(`successfully downloaded ${buildURL} to ${destination}`);
 

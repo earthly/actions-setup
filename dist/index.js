@@ -14092,11 +14092,12 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const tc = __importStar(__nccwpck_require__(7784));
 const os = __importStar(__nccwpck_require__(2037));
-const fs = __importStar(__nccwpck_require__(3292));
+const fs = __importStar(__nccwpck_require__(7147));
 const io = __importStar(__nccwpck_require__(7436));
 const path = __importStar(__nccwpck_require__(1017));
 const get_version_1 = __nccwpck_require__(6052);
 const semver = __importStar(__nccwpck_require__(1383));
+const IS_WINDOWS = process.platform === "win32";
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -14130,7 +14131,8 @@ function run() {
                 .then(() => {
                 core.info(`Successfully deleted pre-existing ${path.join(destination, "bin")}`);
             });
-            const buildURL = `https://github.com/earthly/earthly/releases/download/${version.tag_name}/${pkgName}-${releasePlatform}-${releaseArch}`;
+            const buildURL = `https://github.com/earthly/earthly/releases/download/${version.tag_name}/${pkgName}-${releasePlatform}-${releaseArch}${IS_WINDOWS ? ".exe" : ""}`;
+            core.debug(`downloading ${buildURL}`);
             const downloaded = yield tc.downloadTool(buildURL);
             core.debug(`successfully downloaded ${buildURL} to ${destination}`);
             yield io.mkdirP(path.join(destination, "bin"));
@@ -14139,7 +14141,7 @@ function run() {
             const newPath = path.join(destination, "bin", pkgName);
             yield io.mv(oldPath, newPath);
             core.info(`Successfully renamed ${oldPath} to ${newPath}`);
-            yield fs.chmod(newPath, 0o755);
+            yield fs.promises.chmod(newPath, 0o755);
             const cachedPath = yield tc.cacheDir(path.join(destination, "bin"), pkgName, semver.clean(version.tag_name) || version.tag_name.substring(1));
             core.addPath(cachedPath);
             core.exportVariable("FORCE_COLOR", "1");
@@ -14204,14 +14206,6 @@ module.exports = require("events");
 
 "use strict";
 module.exports = require("fs");
-
-/***/ }),
-
-/***/ 3292:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("fs/promises");
 
 /***/ }),
 
