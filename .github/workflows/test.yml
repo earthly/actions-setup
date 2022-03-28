@@ -16,11 +16,11 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          cache: ${{ !env.ACT && 'yarn' || '' }}
+          cache: ${{ !env.ACT && 'npm' || '' }}
           node-version: "16.x"
       - uses: actions/checkout@v2
-      - run: yarn install --frozen-lockfile --ignore-optional
-      - run: yarn test
+      - run: npm install
+      - run: npm run test
   latest:
     name: Test Latest Version Install
     strategy:
@@ -30,11 +30,11 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          cache: ${{ !env.ACT && 'yarn' || '' }}
+          cache: ${{ !env.ACT && 'npm' || '' }}
           node-version: "16.x"
       - uses: actions/checkout@v2
-      - run: yarn install --frozen-lockfile --ignore-optional
-      - run: yarn package
+      - run: npm install
+      - run: npm run package
       - uses: ./
       - run: earthly --version
   specific:
@@ -46,11 +46,11 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          cache: ${{ !env.ACT && 'yarn' || '' }}
+          cache: ${{ !env.ACT && 'npm' || '' }}
           node-version: "16.x"
       - uses: actions/checkout@v2
-      - run: yarn install --frozen-lockfile --ignore-optional
-      - run: yarn package
+      - run: npm install
+      - run: npm run package
       - uses: ./
         with:
           version: 0.5.0
@@ -64,11 +64,11 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          cache: ${{ !env.ACT && 'yarn' || '' }}
+          cache: ${{ !env.ACT && 'npm' || '' }}
           node-version: "16.x"
       - uses: actions/checkout@v2
-      - run: yarn install --frozen-lockfile --ignore-optional
-      - run: yarn package
+      - run: npm install
+      - run: npm run package
       - uses: ./
         with:
           version: 0.6.*
@@ -82,11 +82,11 @@ jobs:
     steps:
       - uses: actions/setup-node@v1
         with:
-          cache: ${{ !env.ACT && 'yarn' || '' }}
+          cache: ${{ !env.ACT && 'npm' || '' }}
           node-version: "16.x"
       - uses: actions/checkout@v2
-      - run: yarn install --frozen-lockfile --ignore-optional
-      - run: yarn package
+      - run: npm install
+      - run: npm run package
       - uses: ./
         with:
           version: ^0.6.1
