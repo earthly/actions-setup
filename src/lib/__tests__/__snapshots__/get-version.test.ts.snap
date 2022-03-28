@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`get-version range versions should match ^0 versions 1`] = `"v0.6.12"`;
+
+exports[`get-version range versions should match 0.*.* versions 1`] = `"v0.6.12"`;
+
+exports[`get-version range versions should match 0.4.* versions 1`] = `"v0.4.6"`;
+
+exports[`get-version range versions should match 0.6.1 versions 1`] = `"v0.6.1"`;
+
+exports[`get-version range versions should match 0.6.1 versions 2`] = `"v0.6.1"`;
+
+exports[`get-version range versions should match latest versions 1`] = `"v0.6.12"`;
+
+exports[`get-version range versions should match v0.*.* versions 1`] = `"v0.6.12"`;
+
+exports[`get-version range versions should match v0.6.* versions 1`] = `"v0.6.12"`;
+
+exports[`get-version range versions should match v0.6.0 versions 1`] = `"v0.6.0"`;
