@@ -1,7 +1,7 @@
 import * as core from "@actions/core";
 import * as tc from "@actions/tool-cache";
 import * as os from "os";
-import * as fs from "fs/promises";
+import * as fs from "fs";
 import * as io from "@actions/io";
 import * as path from "path";
 import { getVersionObject } from "./lib/get-version";
@@ -66,7 +66,7 @@ async function run() {
     await io.mv(oldPath, newPath);
     core.info(`Successfully renamed ${oldPath} to ${newPath}`);
 
-    await fs.chmod(newPath, 0o755);
+    await fs.promises.chmod(newPath, 0o755);
 
     const cachedPath = await tc.cacheDir(
       path.join(destination, "bin"),
