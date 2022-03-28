@@ -14,11 +14,11 @@ jobs:
         platform: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
           node-version: "16.x"
-      - uses: actions/checkout@v2
       - run: npm install
       - run: npm run test
   latest:
@@ -28,11 +28,11 @@ jobs:
         platform: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
           node-version: "16.x"
-      - uses: actions/checkout@v2
       - run: npm install
       - run: npm run package
       - uses: ./
@@ -44,11 +44,11 @@ jobs:
         platform: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
           node-version: "16.x"
-      - uses: actions/checkout@v2
       - run: npm install
       - run: npm run package
       - uses: ./
@@ -62,11 +62,11 @@ jobs:
         platform: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
           node-version: "16.x"
-      - uses: actions/checkout@v2
       - run: npm install
       - run: npm run package
       - uses: ./
@@ -80,11 +80,11 @@ jobs:
         platform: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.platform }}
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
           node-version: "16.x"
-      - uses: actions/checkout@v2
       - run: npm install
       - run: npm run package
       - uses: ./
