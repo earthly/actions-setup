@@ -34,18 +34,18 @@ jobs:
         run: earthly github.com/earthly/hello-world:main+hello
 ```
 
-Install the latest version of the earthly:
+Install the latest version of earthly:
 
 ```yaml
 - name: Install earthly
-  uses: bloominlabs/setup-earthly@v1
+  uses: earthly/setup-earthly@v1
 ```
 
-Install a specific version of the earthly:
+Install a specific version of earthly:
 
 ```yaml
 - name: Install earthly
-  uses: bloominlabs/setup-earthly@v1
+  uses: earthly/setup-earthly@v1
   with:
     version: 0.6.1
 ```
@@ -54,7 +54,7 @@ Install a version that adheres to a semver range
 
 ```yaml
 - name: Install earthly
-  uses: bloominlabs/setup-earthly@v1
+  uses: earthly/setup-earthly@v1
   with:
     version: ^0.6.0
 ```
