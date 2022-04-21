@@ -68333,10 +68333,21 @@ function run() {
             const installationDir = path.join(destination, "bin");
             const installationPath = path.join(installationDir, `${pkgName}${IS_WINDOWS ? ".exe" : ""}`);
             core.info(`Matched version: ${version.tag_name}`);
-            const restored = yield (0, cache_restore_1.restoreCache)(installationPath, semver.clean(version.tag_name) || version.tag_name.substring(1));
-            if (restored) {
+            // first see if earthly is in the toolcache (installed locally)
+            const toolcacheDir = tc.find(pkgName, semver.clean(version.tag_name) || version.tag_name.substring(1), os.arch());
+            if (toolcacheDir) {
+                core.addPath(toolcacheDir);
+                core.info(`using earthly from toolcache (${toolcacheDir})`);
                 return;
             }
+            // then try to restore earthly from the github action cache
+            core.addPath(installationDir);
+            const restored = yield (0, cache_restore_1.restoreCache)(installationPath, semver.clean(version.tag_name) || version.tag_name.substring(1));
+            if (restored) {
+                yield fs.promises.chmod(installationPath, 0o755);
+                return;
+            }
+            // finally, dowload earthly release binary
             yield io
                 .rmRF(installationDir)
                 .catch()
@@ -68348,8 +68359,7 @@ function run() {
             const downloaded = yield tc.downloadTool(buildURL, installationPath);
             core.debug(`successfully downloaded ${buildURL} to ${downloaded}`);
             yield fs.promises.chmod(installationPath, 0o755);
-            const cachedPath = yield tc.cacheDir(path.join(destination, "bin"), pkgName, semver.clean(version.tag_name) || version.tag_name.substring(1));
-            core.addPath(cachedPath);
+            yield tc.cacheDir(path.join(destination, "bin"), pkgName, semver.clean(version.tag_name) || version.tag_name.substring(1), os.arch());
             core.exportVariable("FORCE_COLOR", "1");
         }
         catch (error) {

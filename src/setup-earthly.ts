@@ -53,6 +53,20 @@ async function run() {
     );
     core.info(`Matched version: ${version.tag_name}`);
 
+    // first see if earthly is in the toolcache (installed locally)
+    const toolcacheDir = tc.find(
+      pkgName,
+      semver.clean(version.tag_name) || version.tag_name.substring(1),
+      os.arch()
+    );
+
+    if (toolcacheDir) {
+      core.addPath(toolcacheDir);
+      core.info(`using earthly from toolcache (${toolcacheDir})`);
+      return;
+    }
+
+    // then try to restore earthly from the github action cache
     core.addPath(installationDir);
     const restored = await restoreCache(
       installationPath,
@@ -63,6 +77,7 @@ async function run() {
       return;
     }
 
+    // finally, dowload earthly release binary
     await io
       .rmRF(installationDir)
       .catch()
@@ -83,7 +98,8 @@ async function run() {
     await tc.cacheDir(
       path.join(destination, "bin"),
       pkgName,
-      semver.clean(version.tag_name) || version.tag_name.substring(1)
+      semver.clean(version.tag_name) || version.tag_name.substring(1),
+      os.arch()
     );
     core.exportVariable("FORCE_COLOR", "1");
   } catch (error: unknown) {
