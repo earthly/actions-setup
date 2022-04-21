@@ -1,11 +1,14 @@
-import * as core from "@actions/core";
-import * as tc from "@actions/tool-cache";
 import * as os from "os";
 import * as fs from "fs";
-import * as io from "@actions/io";
 import * as path from "path";
-import { getVersionObject } from "./lib/get-version";
 import * as semver from "semver";
+
+import * as io from "@actions/io";
+import * as core from "@actions/core";
+import * as tc from "@actions/tool-cache";
+
+import { getVersionObject } from "./lib/get-version";
+import { restoreCache } from "./cache-restore";
 
 const IS_WINDOWS = process.platform === "win32";
 
@@ -40,18 +43,31 @@ async function run() {
     core.info(`Configured range: ${range}`);
     const version = await getVersionObject(range);
 
-    core.info(`Matched version: ${version.tag_name}`);
-
     const destination = path.join(os.homedir(), `.${pkgName}`);
     core.info(`Install destination is ${destination}`);
 
+    const installationDir = path.join(destination, "bin");
+    const installationPath = path.join(
+      installationDir,
+      `${pkgName}${IS_WINDOWS ? ".exe" : ""}`
+    );
+    core.info(`Matched version: ${version.tag_name}`);
+
+    core.addPath(installationDir);
+    const restored = await restoreCache(
+      installationPath,
+      semver.clean(version.tag_name) || version.tag_name.substring(1)
+    );
+    if (restored) {
+      await fs.promises.chmod(installationPath, 0o755);
+      return;
+    }
+
     await io
-      .rmRF(path.join(destination, "bin"))
+      .rmRF(installationDir)
       .catch()
       .then(() => {
-        core.info(
-          `Successfully deleted pre-existing ${path.join(destination, "bin")}`
-        );
+        core.info(`Successfully deleted pre-existing ${installationDir}`);
       });
 
     const buildURL = `https://github.com/earthly/earthly/releases/download/${
@@ -59,18 +75,16 @@ async function run() {
     }/${pkgName}-${releasePlatform}-${releaseArch}${IS_WINDOWS ? ".exe" : ""}`;
 
     core.debug(`downloading ${buildURL}`);
-    const binary = path.join(destination, "bin", pkgName);
-    const downloaded = await tc.downloadTool(buildURL, binary);
+    const downloaded = await tc.downloadTool(buildURL, installationPath);
     core.debug(`successfully downloaded ${buildURL} to ${downloaded}`);
 
-    await fs.promises.chmod(binary, 0o755);
+    await fs.promises.chmod(installationPath, 0o755);
 
-    const cachedPath = await tc.cacheDir(
+    await tc.cacheDir(
       path.join(destination, "bin"),
       pkgName,
       semver.clean(version.tag_name) || version.tag_name.substring(1)
     );
-    core.addPath(cachedPath);
     core.exportVariable("FORCE_COLOR", "1");
   } catch (error: unknown) {
     if (error instanceof Error) {

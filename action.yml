@@ -6,8 +6,9 @@ branding:
 author: Earthly technologies
 inputs:
   version:
-    description: 'version of earthly to use.'
-    default: 'latest'
+    description: "version of earthly to use."
+    default: "latest"
 runs:
-  using: node12
-  main: dist/index.js
+  using: node16
+  main: dist/setup/index.js
+  post: "dist/cache-save/index.js"
