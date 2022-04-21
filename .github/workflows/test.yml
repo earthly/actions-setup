@@ -8,10 +8,10 @@ on:
 
 jobs:
   unit:
-    name: Unit Test
+    name: earthly +all
     strategy:
       matrix:
-        platform: [ubuntu-latest, macos-latest, windows-latest]
+        platform: [ubuntu-latest]
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v3
@@ -19,8 +19,9 @@ jobs:
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
           node-version: "16.x"
-      - run: npm install
-      - run: npm run test
+      - uses: ./
+      - run: earthly +all
+  # Below are tests specific to the github actions, which ensure the actions-setup code works with GHA
   latest:
     name: Test Latest Version Install
     strategy:
