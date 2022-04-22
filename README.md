@@ -61,7 +61,9 @@ Install a version that adheres to a semver range
 
 ### Testing
 
-You can test this action locally using [act](https://github.com/nektos/act). See the repo for more instructions.
+You can perform a local test by running `earthly +all`.
+
+It is also possible to use [act](https://github.com/nektos/act) to test the contents of the github actions config.
 
 ## Configuration
 
