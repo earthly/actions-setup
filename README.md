@@ -38,14 +38,14 @@ Install the latest version of earthly:
 
 ```yaml
 - name: Install earthly
-  uses: earthly/setup-earthly@v1
+  uses: earthly/actions-setup@v1
 ```
 
 Install a specific version of earthly:
 
 ```yaml
 - name: Install earthly
-  uses: earthly/setup-earthly@v1
+  uses: earthly/actions-setup@v1
   with:
     version: 0.6.1
 ```
@@ -54,7 +54,7 @@ Install a version that adheres to a semver range
 
 ```yaml
 - name: Install earthly
-  uses: earthly/setup-earthly@v1
+  uses: earthly/actions-setup@v1
   with:
     version: ^0.6.0
 ```
