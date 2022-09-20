@@ -1,6 +1,7 @@
 name: "Test action-install-earthly"
 on:
   pull_request:
+  workflow_dispatch:
   push:
     branches:
       - "main"
