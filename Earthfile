@@ -51,7 +51,8 @@ test-run:
     RUN ! grep 'Found tool in cache' output
     RUN cat output | grep '^::add-path::' | sed 's/::add-path:://g' > earthly-path
     RUN test "$(cat earthly-path)" = "/root/.earthly/bin"
-    RUN export PATH="$(cat earthly-path):$PATH" && earthly --version | grep '^earthly version v.*linux/amd64; Linux'
+    # [a-zA-Z0-9]* attempt to match a commit hash
+    RUN export PATH="$(cat earthly-path):$PATH" && earthly --version | grep '^earthly version v.* [a-zA-Z0-9]* linux/arm64; Alpine Linux'
 
     # validate cache was used
     RUN node dist/setup/index.js | tee output2

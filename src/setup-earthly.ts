@@ -37,7 +37,8 @@ async function run() {
     }
 
     const releasePlatform = nodePlatformToReleasePlatform[runnerPlatform];
-    const releaseArch = nodeArchToReleaseArch[os.arch()];
+    const osArch = os.arch();
+    const releaseArch = nodeArchToReleaseArch[os.arch()] || osArch;
 
     const range = core.getInput("version");
     core.info(`Configured range: ${range}`);
