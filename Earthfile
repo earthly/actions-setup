@@ -52,7 +52,8 @@ test-run:
     RUN cat output | grep '^::add-path::' | sed 's/::add-path:://g' > earthly-path
     RUN test "$(cat earthly-path)" = "/root/.earthly/bin"
     # [a-zA-Z0-9]* attempt to match a commit hash
-    RUN export PATH="$(cat earthly-path):$PATH" && earthly --version | grep '^earthly version v.* [a-zA-Z0-9]* linux/arm64; Alpine Linux'
+    RUN export PATH="$(cat earthly-path):$PATH" && earthly --version
+    RUN export PATH="$(cat earthly-path):$PATH" && earthly --version | grep '^earthly version v.* [a-zA-Z0-9]* linux/amd64; Alpine Linux'
 
     # validate cache was used
     RUN node dist/setup/index.js | tee output2
