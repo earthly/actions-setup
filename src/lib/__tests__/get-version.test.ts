@@ -1,22 +1,22 @@
-import * as playback from "jest-playback";
 import { getVersionObject } from "../get-version";
-playback.setup(__dirname);
+import * as semver from 'semver';
+
+// The latest version since this test was last changed
+// Feel free to update it if earthly has been updated
+const latest = '0.6.23';
 
 describe("get-version", () => {
-  // process.env.GITHUB_TOKEN = process.env.GITHUB_TOKEN || "my-token";
-  describe("range versions", () => {
-    it.each([
-      "latest",
-      "^0",
-      "0.*.*",
-      "0.4.*",
-      "v0.4.*",
-      "0.6.1",
-      "v0.6.0",
-      "0.6.1",
-    ] as const)("should match %s versions", async (ver) => {
+  describe('latest range versions', () => {
+    it.each(["latest", "^0", "0.*.*"] as const)("should match %s versions", async (ver) => {
       const v = await getVersionObject(ver);
-      expect(v.tag_name).toMatchSnapshot();
+      expect(semver.gte(v.tag_name, '0.6.23'));
+    });
+  });
+  describe("range versions", () => {
+    it.each([{spec: "0.4.*", gte: "0.4.0"}, {spec: "v0.4.*", gte: "0.4.0"}, {spec: "0.6.1", eq: '0.6.1'}, {spec: "v0.6.0", eq: "0.6.1"}] as const)("should match %s versions", async (test) => {
+      const v = await getVersionObject(test.spec);
+      if (test.gte) expect(semver.gte(v.tag_name, test.gte));
+      if (test.eq) expect(semver.eq(v.tag_name, test.eq));
     });
   });
 });
