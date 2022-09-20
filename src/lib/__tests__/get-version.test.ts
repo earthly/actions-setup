@@ -9,7 +9,7 @@ describe("get-version", () => {
   describe('latest range versions', () => {
     it.each(["latest", "^0", "0.*.*"] as const)("should match %s versions", async (ver) => {
       const v = await getVersionObject(ver);
-      expect(semver.gte(v.tag_name, '0.6.23'));
+      expect(semver.gte(v.tag_name, latest));
     });
   });
   describe("range versions", () => {
