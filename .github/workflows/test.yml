@@ -1,10 +1,14 @@
 name: "Test action-install-earthly"
 on:
   pull_request:
+  workflow_dispatch:
   push:
     branches:
       - "main"
       - "releases/*"
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GRISWOLDTHECAT_GITHUB_TOKEN }}
 
 jobs:
   unit:
@@ -15,6 +19,8 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GRISWOLDTHECAT_GITHUB_TOKEN }}
       - uses: actions/setup-node@v3
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
@@ -30,6 +36,8 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GRISWOLDTHECAT_GITHUB_TOKEN }}
       - uses: actions/setup-node@v3
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
@@ -47,6 +55,8 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GRISWOLDTHECAT_GITHUB_TOKEN }}
       - uses: actions/setup-node@v3
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
@@ -65,6 +75,8 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GRISWOLDTHECAT_GITHUB_TOKEN }}
       - uses: actions/setup-node@v3
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
@@ -83,6 +95,8 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GRISWOLDTHECAT_GITHUB_TOKEN }}
       - uses: actions/setup-node@v3
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}

@@ -68324,7 +68324,8 @@ function run() {
                 throw new Error(`Unsupported operating system - ${pkgName} is only released for ${Object.keys(nodePlatformToReleasePlatform).join(", ")}`);
             }
             const releasePlatform = nodePlatformToReleasePlatform[runnerPlatform];
-            const releaseArch = nodeArchToReleaseArch[os.arch()];
+            const osArch = os.arch();
+            const releaseArch = nodeArchToReleaseArch[os.arch()] || osArch;
             const range = core.getInput("version");
             core.info(`Configured range: ${range}`);
             const version = yield (0, get_version_1.getVersionObject)(range);
