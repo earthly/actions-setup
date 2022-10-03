@@ -34,10 +34,6 @@ export const cacheBinary = async () => {
   const state = core.getState(State.CacheMatchedKey);
   const primaryKey = core.getState(State.CachePrimaryKey);
   const path = core.getState(State.BinaryPath);
-  if (!fs.existsSync(path)) {
-   core.warning(`Cache folder path doesn't exist on disk: ${path} ... skipping cache`);
-   return;
-  }
 
   core.debug(
     `checking if cache hit occurred. primaryKey: ${primaryKey}, state: ${state}`
@@ -47,6 +43,10 @@ export const cacheBinary = async () => {
       `Cache hit occurred on the primary key ${primaryKey}, not saving cache.`
     );
     return;
+  }
+
+  if (!fs.existsSync(path)) {
+    throw new Error(`Cache folder path doesn't exist on disk: ${path}`);
   }
 
   try {
