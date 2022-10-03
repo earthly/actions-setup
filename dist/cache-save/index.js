@@ -59209,7 +59209,8 @@ const cacheBinary = () => __awaiter(void 0, void 0, void 0, function* () {
     const primaryKey = core.getState(constants_1.State.CachePrimaryKey);
     const path = core.getState(constants_1.State.BinaryPath);
     if (!fs_1.default.existsSync(path)) {
-        throw new Error(`Cache folder path doesn't exist on disk: ${path}`);
+        core.warning(`Cache folder path doesn't exist on disk: ${path} ... skipping cache`);
+        return;
     }
     core.debug(`checking if cache hit occurred. primaryKey: ${primaryKey}, state: ${state}`);
     if (primaryKey === state) {
