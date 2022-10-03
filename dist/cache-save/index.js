@@ -59208,13 +59208,13 @@ const cacheBinary = () => __awaiter(void 0, void 0, void 0, function* () {
     const state = core.getState(constants_1.State.CacheMatchedKey);
     const primaryKey = core.getState(constants_1.State.CachePrimaryKey);
     const path = core.getState(constants_1.State.BinaryPath);
-    if (!fs_1.default.existsSync(path)) {
-        throw new Error(`Cache folder path doesn't exist on disk: ${path}`);
-    }
     core.debug(`checking if cache hit occurred. primaryKey: ${primaryKey}, state: ${state}`);
     if (primaryKey === state) {
         core.info(`Cache hit occurred on the primary key ${primaryKey}, not saving cache.`);
         return;
+    }
+    if (!fs_1.default.existsSync(path)) {
+        throw new Error(`Cache folder path doesn't exist on disk: ${path}`);
     }
     try {
         yield cache.saveCache([path], primaryKey);
