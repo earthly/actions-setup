@@ -8,7 +8,11 @@ inputs:
   version:
     description: "version of earthly to use."
     default: "latest"
+  use-cache:
+    description: "whether to use the cache to store earthly or not"
+    default: "true"
 runs:
   using: node16
   main: dist/setup/index.js
   post: "dist/cache-save/index.js"
+  post-if: inputs.use-cache == 'true'
