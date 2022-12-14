@@ -8,6 +8,8 @@ inputs:
   version:
     description: "version of earthly to use."
     default: "latest"
+  github-token:
+    description: "GitHub token for fetching Earthly version list."
 runs:
   using: node16
   main: dist/setup/index.js
