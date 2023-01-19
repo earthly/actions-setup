@@ -8,7 +8,7 @@ on:
       - "releases/*"
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GRISWOLDTHECAT_GITHUB_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.LITTLEREDCORVETTE_GITHUB_TOKEN }}
 
 jobs:
   unit:
@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GRISWOLDTHECAT_GITHUB_TOKEN }}
+          token: ${{ secrets.LITTLEREDCORVETTE_GITHUB_TOKEN }}
       - uses: actions/setup-node@v3
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GRISWOLDTHECAT_GITHUB_TOKEN }}
+          token: ${{ secrets.LITTLEREDCORVETTE_GITHUB_TOKEN }}
       - uses: actions/setup-node@v3
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
@@ -56,7 +56,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GRISWOLDTHECAT_GITHUB_TOKEN }}
+          token: ${{ secrets.LITTLEREDCORVETTE_GITHUB_TOKEN }}
       - uses: actions/setup-node@v3
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
@@ -76,7 +76,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GRISWOLDTHECAT_GITHUB_TOKEN }}
+          token: ${{ secrets.LITTLEREDCORVETTE_GITHUB_TOKEN }}
       - uses: actions/setup-node@v3
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
@@ -96,7 +96,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GRISWOLDTHECAT_GITHUB_TOKEN }}
+          token: ${{ secrets.LITTLEREDCORVETTE_GITHUB_TOKEN }}
       - uses: actions/setup-node@v3
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}

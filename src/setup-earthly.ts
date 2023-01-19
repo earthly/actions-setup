@@ -41,8 +41,9 @@ async function run() {
     const releaseArch = nodeArchToReleaseArch[os.arch()] || osArch;
 
     const range = core.getInput("version");
-    core.info(`Configured range: ${range}`);
-    const version = await getVersionObject(range);
+    const prerelease = core.getInput("prerelease").toUpperCase() === 'TRUE';
+    core.info(`Configured range: ${range}; allow prerelease: ${prerelease}`);
+    const version = await getVersionObject(range, prerelease);
 
     const destination = path.join(os.homedir(), `.${pkgName}`);
     core.info(`Install destination is ${destination}`);
