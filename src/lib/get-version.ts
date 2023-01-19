@@ -8,7 +8,8 @@ type ReleaseResponse =
   Endpoints["GET /repos/{owner}/{repo}/releases"]["response"]["data"][0];
 
 export async function getVersionObject(
-  range: string
+  range: string,
+  prerelease: boolean,
 ): Promise<ReleaseResponse> {
   const MyOctokit = Octokit.plugin(paginateRest);
   const octokit = new MyOctokit({
@@ -21,7 +22,9 @@ export async function getVersionObject(
       repo: "earthly",
       per_page: 100,
     })
-  ).reduce((acc, cur) => {
+  ).filter(release => {
+    return prerelease || !release.prerelease;
+  }).reduce((acc, cur) => {
     // remove 'v' from tag name
     const tag = cur.tag_name.substring(1);
 

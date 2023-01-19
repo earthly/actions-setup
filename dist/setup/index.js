@@ -71412,7 +71412,7 @@ const core_1 = __nccwpck_require__(6762);
 const semver_1 = __nccwpck_require__(1383);
 const plugin_paginate_rest_1 = __nccwpck_require__(4193);
 const core = __importStar(__nccwpck_require__(2186));
-function getVersionObject(range) {
+function getVersionObject(range, prerelease) {
     return __awaiter(this, void 0, void 0, function* () {
         const MyOctokit = core_1.Octokit.plugin(plugin_paginate_rest_1.paginateRest);
         const octokit = new MyOctokit({
@@ -71422,7 +71422,9 @@ function getVersionObject(range) {
             owner: "earthly",
             repo: "earthly",
             per_page: 100,
-        })).reduce((acc, cur) => {
+        })).filter(release => {
+            return prerelease || !release.prerelease;
+        }).reduce((acc, cur) => {
             // remove 'v' from tag name
             const tag = cur.tag_name.substring(1);
             acc[tag] = cur;
@@ -71529,8 +71531,9 @@ function run() {
             const osArch = os.arch();
             const releaseArch = nodeArchToReleaseArch[os.arch()] || osArch;
             const range = core.getInput("version");
-            core.info(`Configured range: ${range}`);
-            const version = yield (0, get_version_1.getVersionObject)(range);
+            const prerelease = core.getInput("prerelease").toUpperCase() === 'TRUE';
+            core.info(`Configured range: ${range}; allow prerelease: ${prerelease}`);
+            const version = yield (0, get_version_1.getVersionObject)(range, prerelease);
             const destination = path.join(os.homedir(), `.${pkgName}`);
             core.info(`Install destination is ${destination}`);
             const installationDir = path.join(destination, "bin");
