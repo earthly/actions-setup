@@ -26,4 +26,15 @@ describe("get-version", () => {
             if (test.eq) expect(semver.eq(v.tag_name, test.eq));
         });
     });
+    describe("valid semver", () => {
+        it.each([
+            {spec: "0.4.*", valid: false},
+            {spec: "v0.4.1", valid: false},
+            {spec: "0.6.1", valid: true},
+        ] as const)("%s is valid semantic version", async (test) => {
+            console.log(JSON.stringify(test));
+            const v = semver.valid(test.spec) != null;
+            expect(v == test.valid);
+        });
+    });
 });

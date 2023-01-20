@@ -41,9 +41,19 @@ async function run() {
     const releaseArch = nodeArchToReleaseArch[os.arch()] || osArch;
 
     const range = core.getInput("version");
-    const prerelease = core.getInput("prerelease").toUpperCase() === 'TRUE';
-    core.info(`Configured range: ${range}; allow prerelease: ${prerelease}`);
-    const version = await getVersionObject(range, prerelease);
+    const isValidSemVer = semver.valid(range) != null;
+    var tag_name: string;
+    if (isValidSemVer) {
+      core.info(`Using provided strict version ${range}`);
+      tag_name = `v${range}`;
+    } else {
+      // only grab the version from the api if the version provided by the user
+      // doesn't appear to be a valid semver
+      const prerelease = core.getInput("prerelease").toUpperCase() === 'TRUE';
+      core.info(`Configured range: ${range}; allow prerelease: ${prerelease}`);
+      const version = await getVersionObject(range, prerelease);
+      tag_name = version.tag_name;
+    }
 
     const destination = path.join(os.homedir(), `.${pkgName}`);
     core.info(`Install destination is ${destination}`);
@@ -53,12 +63,12 @@ async function run() {
       installationDir,
       `${pkgName}${IS_WINDOWS ? ".exe" : ""}`
     );
-    core.info(`Matched version: ${version.tag_name}`);
+    core.info(`Matched version: ${tag_name}`);
 
     // first see if earthly is in the toolcache (installed locally)
     const toolcacheDir = tc.find(
       pkgName,
-      semver.clean(version.tag_name) || version.tag_name.substring(1),
+      semver.clean(tag_name) || tag_name.substring(1),
       os.arch()
     );
 
@@ -72,7 +82,7 @@ async function run() {
     core.addPath(installationDir);
     const restored = await restoreCache(
       installationPath,
-      semver.clean(version.tag_name) || version.tag_name.substring(1)
+      semver.clean(tag_name) || tag_name.substring(1)
     );
     if (restored) {
       await fs.promises.chmod(installationPath, 0o755);
@@ -88,7 +98,7 @@ async function run() {
       });
 
     const buildURL = `https://github.com/earthly/earthly/releases/download/${
-      version.tag_name
+      tag_name
     }/${pkgName}-${releasePlatform}-${releaseArch}${IS_WINDOWS ? ".exe" : ""}`;
 
     core.debug(`downloading ${buildURL}`);
@@ -100,7 +110,7 @@ async function run() {
     await tc.cacheDir(
       path.join(destination, "bin"),
       pkgName,
-      semver.clean(version.tag_name) || version.tag_name.substring(1),
+      semver.clean(tag_name) || tag_name.substring(1),
       os.arch()
     );
     core.exportVariable("FORCE_COLOR", "1");
