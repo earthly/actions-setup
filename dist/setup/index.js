@@ -71531,16 +71531,27 @@ function run() {
             const osArch = os.arch();
             const releaseArch = nodeArchToReleaseArch[os.arch()] || osArch;
             const range = core.getInput("version");
-            const prerelease = core.getInput("prerelease").toUpperCase() === 'TRUE';
-            core.info(`Configured range: ${range}; allow prerelease: ${prerelease}`);
-            const version = yield (0, get_version_1.getVersionObject)(range, prerelease);
+            const isValidSemVer = semver.valid(range) != null;
+            var tag_name;
+            if (isValidSemVer) {
+                core.info(`Using provided strict version ${range}`);
+                tag_name = `v${range}`;
+            }
+            else {
+                // only grab the version from the api if the version provided by the user
+                // doesn't appear to be a valid semver
+                const prerelease = core.getInput("prerelease").toUpperCase() === 'TRUE';
+                core.info(`Configured range: ${range}; allow prerelease: ${prerelease}`);
+                const version = yield (0, get_version_1.getVersionObject)(range, prerelease);
+                tag_name = version.tag_name;
+            }
             const destination = path.join(os.homedir(), `.${pkgName}`);
             core.info(`Install destination is ${destination}`);
             const installationDir = path.join(destination, "bin");
             const installationPath = path.join(installationDir, `${pkgName}${IS_WINDOWS ? ".exe" : ""}`);
-            core.info(`Matched version: ${version.tag_name}`);
+            core.info(`Matched version: ${tag_name}`);
             // first see if earthly is in the toolcache (installed locally)
-            const toolcacheDir = tc.find(pkgName, semver.clean(version.tag_name) || version.tag_name.substring(1), os.arch());
+            const toolcacheDir = tc.find(pkgName, semver.clean(tag_name) || tag_name.substring(1), os.arch());
             if (toolcacheDir) {
                 core.addPath(toolcacheDir);
                 core.info(`using earthly from toolcache (${toolcacheDir})`);
@@ -71548,7 +71559,7 @@ function run() {
             }
             // then try to restore earthly from the github action cache
             core.addPath(installationDir);
-            const restored = yield (0, cache_restore_1.restoreCache)(installationPath, semver.clean(version.tag_name) || version.tag_name.substring(1));
+            const restored = yield (0, cache_restore_1.restoreCache)(installationPath, semver.clean(tag_name) || tag_name.substring(1));
             if (restored) {
                 yield fs.promises.chmod(installationPath, 0o755);
                 return;
@@ -71560,12 +71571,12 @@ function run() {
                 .then(() => {
                 core.info(`Successfully deleted pre-existing ${installationDir}`);
             });
-            const buildURL = `https://github.com/earthly/earthly/releases/download/${version.tag_name}/${pkgName}-${releasePlatform}-${releaseArch}${IS_WINDOWS ? ".exe" : ""}`;
+            const buildURL = `https://github.com/earthly/earthly/releases/download/${tag_name}/${pkgName}-${releasePlatform}-${releaseArch}${IS_WINDOWS ? ".exe" : ""}`;
             core.debug(`downloading ${buildURL}`);
             const downloaded = yield tc.downloadTool(buildURL, installationPath);
             core.debug(`successfully downloaded ${buildURL} to ${downloaded}`);
             yield fs.promises.chmod(installationPath, 0o755);
-            yield tc.cacheDir(path.join(destination, "bin"), pkgName, semver.clean(version.tag_name) || version.tag_name.substring(1), os.arch());
+            yield tc.cacheDir(path.join(destination, "bin"), pkgName, semver.clean(tag_name) || tag_name.substring(1), os.arch());
             core.exportVariable("FORCE_COLOR", "1");
         }
         catch (error) {

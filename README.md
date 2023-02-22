@@ -71,3 +71,5 @@ The action can be configured with the following arguments:
 
 - `version` - The version of earthly to install. Default is `latest`. Accepts semver style values.
 - `github-token` (optional) - Token used to query earthly versions.
+- `prerelease` (optional) - allow prerelease versions.
+- `use-cache` (optional) - whether to use the cache to store earthly or not.
