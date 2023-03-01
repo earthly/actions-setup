@@ -45,7 +45,11 @@ async function run() {
     var tag_name: string;
     if (isValidSemVer) {
       core.info(`Using provided strict version ${range}`);
-      tag_name = `v${range}`;
+      if (range[0] === "v") {
+        tag_name = range;
+      } else {
+        tag_name = `v${range}`;
+      }
     } else {
       // only grab the version from the api if the version provided by the user
       // doesn't appear to be a valid semver
