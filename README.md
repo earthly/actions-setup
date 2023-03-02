@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: earthly/actions-setup@v1
         with:
-          version: "latest" # or pin to an specific version, e.g. "v0.6.10"
+          version: "latest" # or pin to an specific version, e.g. "0.7.1"
       - uses: actions/checkout@v2
       - name: Docker login # to avoid dockerhub rate-limiting
         run: docker login --username "${{ secrets.DOCKERHUB_USERNAME }}" --password "${{ secrets.DOCKERHUB_PASSWORD }}"
