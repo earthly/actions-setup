@@ -71577,7 +71577,7 @@ function run() {
                 core.info(`Successfully deleted pre-existing ${installationDir}`);
             });
             const buildURL = `https://github.com/earthly/earthly/releases/download/${tag_name}/${pkgName}-${releasePlatform}-${releaseArch}${IS_WINDOWS ? ".exe" : ""}`;
-            core.debug(`downloading ${buildURL}`);
+            core.info(`downloading ${buildURL}`);
             const downloaded = yield tc.downloadTool(buildURL, installationPath);
             core.debug(`successfully downloaded ${buildURL} to ${downloaded}`);
             yield fs.promises.chmod(installationPath, 0o755);
