@@ -105,7 +105,7 @@ async function run() {
       tag_name
     }/${pkgName}-${releasePlatform}-${releaseArch}${IS_WINDOWS ? ".exe" : ""}`;
 
-    core.debug(`downloading ${buildURL}`);
+    core.info(`downloading ${buildURL}`);
     const downloaded = await tc.downloadTool(buildURL, installationPath);
     core.debug(`successfully downloaded ${buildURL} to ${downloaded}`);
 
