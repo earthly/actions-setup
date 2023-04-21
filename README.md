@@ -42,7 +42,6 @@ Install the latest version of earthly:
   uses: earthly/actions-setup@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
-
 ```
 
 Install a specific version of earthly:
