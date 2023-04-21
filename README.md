@@ -24,6 +24,7 @@ jobs:
     steps:
       - uses: earthly/actions-setup@v1
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           version: "latest" # or pin to an specific version, e.g. "0.7.1"
       - uses: actions/checkout@v2
       - name: Docker login # to avoid dockerhub rate-limiting
@@ -39,6 +40,8 @@ Install the latest version of earthly:
 ```yaml
 - name: Install earthly
   uses: earthly/actions-setup@v1
+  with:
+    github-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 Install a specific version of earthly:
@@ -47,6 +50,7 @@ Install a specific version of earthly:
 - name: Install earthly
   uses: earthly/actions-setup@v1
   with:
+    github-token: ${{ secrets.GITHUB_TOKEN }}
     version: 0.6.1
 ```
 
@@ -56,6 +60,7 @@ Install a version that adheres to a semver range
 - name: Install earthly
   uses: earthly/actions-setup@v1
   with:
+    github-token: ${{ secrets.GITHUB_TOKEN }}
     version: ^0.6.0
 ```
 
@@ -73,3 +78,4 @@ The action can be configured with the following arguments:
 - `github-token` (optional) - Token used to query earthly versions.
 - `prerelease` (optional) - allow prerelease versions.
 - `use-cache` (optional) - whether to use the cache to store earthly or not.
+- `github-token` (optional) - GitHub token for fetching earthly version list. Recommended to avoid GitHub API ratelimit.
