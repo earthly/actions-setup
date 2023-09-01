@@ -75,7 +75,6 @@ It is also possible to use [act](https://github.com/nektos/act) to test the cont
 The action can be configured with the following arguments:
 
 - `version` - The version of earthly to install. Default is `latest`. Accepts semver style values.
-- `github-token` (optional) - Token used to query earthly versions.
 - `prerelease` (optional) - allow prerelease versions.
 - `use-cache` (optional) - whether to use the cache to store earthly or not.
 - `github-token` (optional) - GitHub token for fetching earthly version list. Recommended to avoid GitHub API ratelimit.

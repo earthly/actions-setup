@@ -62434,6 +62434,10 @@ const cacheBinary = () => __awaiter(void 0, void 0, void 0, function* () {
     if (!utils.isCacheFeatureAvailable()) {
         return;
     }
+    if (core.getInput('use-cache') !== "true") {
+        core.info(`skipping cache save as use-cache is not true`);
+        return;
+    }
     const state = core.getState(constants_1.State.CacheMatchedKey);
     const primaryKey = core.getState(constants_1.State.CachePrimaryKey);
     const path = core.getState(constants_1.State.BinaryPath);
