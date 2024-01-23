@@ -1,7 +1,7 @@
 VERSION 0.6
 
 npm-base:
-    FROM alpine:3.13.5
+    FROM alpine:3.19
     RUN apk add --update nodejs npm
     COPY ./package.json ./
     COPY ./package-lock.json ./
@@ -32,7 +32,7 @@ compile:
     SAVE ARTIFACT node_modules AS LOCAL node_modules
 
 test-compile-was-run:
-    FROM alpine:3.13.5
+    FROM alpine:3.19
     COPY dist /from-git
     COPY +compile/dist /from-compile
     RUN diff -r /from-git /from-compile >/dev/null || (echo "dist and +compile/dist are different, did you forget to run earthly +compile?" && exit 1)
@@ -60,7 +60,7 @@ test-run:
     RUN grep 'Found tool in cache' output2
 
 lint-newline:
-    FROM alpine:3.15
+    FROM alpine:3.19
     WORKDIR /everything
     COPY . .
     # test that line endings are unix-style
