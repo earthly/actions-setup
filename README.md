@@ -25,7 +25,7 @@ jobs:
       - uses: earthly/actions-setup@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          version: "latest" # or pin to an specific version, e.g. "0.7.1"
+          version: "latest" # or pin to an specific version, e.g. "0.8.1"
       - uses: actions/checkout@v2
       - name: Docker login # to avoid dockerhub rate-limiting
         run: docker login --username "${{ secrets.DOCKERHUB_USERNAME }}" --password "${{ secrets.DOCKERHUB_PASSWORD }}"
@@ -51,7 +51,7 @@ Install a specific version of earthly:
   uses: earthly/actions-setup@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
-    version: 0.6.1
+    version: 0.8.1
 ```
 
 Install a version that adheres to a semver range
@@ -61,7 +61,7 @@ Install a version that adheres to a semver range
   uses: earthly/actions-setup@v1
   with:
     github-token: ${{ secrets.GITHUB_TOKEN }}
-    version: ^0.6.0
+    version: ^0.8.0
 ```
 
 ### Testing
