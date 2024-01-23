@@ -17,6 +17,6 @@ inputs:
   github-token:
     description: "GitHub token for fetching Earthly version list."
 runs:
-  using: node16
+  using: node20
   main: dist/setup/index.js
   post: "dist/cache-save/index.js"
