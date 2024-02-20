@@ -71275,7 +71275,8 @@ const restoreCache = (path, version) => __awaiter(void 0, void 0, void 0, functi
         return false;
     }
     const platform = process.env.RUNNER_OS;
-    const primaryKey = `earthly-cache-${platform}-${version}`;
+    const arch = process.env.RUNNER_ARCH;
+    const primaryKey = `earthly-cache-${platform}-${arch}-${version}`;
     core.debug(`primary key is ${primaryKey}`);
     core.saveState(constants_1.State.CachePrimaryKey, primaryKey);
     core.saveState(constants_1.State.BinaryPath, path);
