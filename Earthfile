@@ -1,8 +1,7 @@
-VERSION 0.6
+VERSION 0.8
 
 npm-base:
-    FROM alpine:3.19
-    RUN apk add --update nodejs npm
+    FROM node:21.7-alpine3.19
     COPY ./package.json ./
     COPY ./package-lock.json ./
     RUN npm install
