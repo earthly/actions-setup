@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
           node-version: "16.x"
@@ -38,7 +38,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
           node-version: "16.x"
@@ -57,7 +57,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
           node-version: "16.x"
@@ -77,7 +77,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
           node-version: "16.x"
@@ -97,7 +97,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           cache: ${{ !env.ACT && 'npm' || '' }}
           node-version: "16.x"
