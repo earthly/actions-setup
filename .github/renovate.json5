@@ -12,9 +12,24 @@
       matchManagers: [
         'npm', 'github-actions',
       ],
-      groupName: "{{datasource}}_{{updateType}}",
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
+      groupName: "{{datasource}} (non-major)",
       addLabels: [
-        '{{datasource}}',
+        'non-major',
+      ],
+    },
+    {
+      // add major label to major updates
+      matchManagers: [
+        'npm', 'github-actions',
+      ],
+      matchUpdateTypes: [
+        'major',
+      ],
+      addLabels: [
         '{{updateType}}',
       ],
     },
