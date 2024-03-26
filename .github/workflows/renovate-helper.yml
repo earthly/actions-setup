@@ -20,6 +20,8 @@ jobs:
         with:
           version: v0.8.6
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
       # - name: Docker login (non fork only)
       #   run: |-
       #     docker login --username "${{ secrets.DOCKERHUB_USERNAME }}" --password "${{ secrets.DOCKERHUB_TOKEN }}"
