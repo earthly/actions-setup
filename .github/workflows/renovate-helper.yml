@@ -4,8 +4,12 @@ on:
   pull_request:
     branches: [ main ]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  udpate-renovate-branch:
+  update-renovate-branch:
     if: github.event.pull_request.head.repo.full_name == github.repository && startsWith(github.head_ref, 'renovate/') && github.head_ref == 'renovate[bot]'
     runs-on: ubuntu-latest
     env:
