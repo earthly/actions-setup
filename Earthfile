@@ -2,6 +2,9 @@ VERSION 0.8
 
 PROJECT earthly-technologies/core
 
+ARG EARTHLY_LIB_VERSION=3.0.1
+IMPORT github.com/earthly/lib/utils/git:$EARTHLY_LIB_VERSION AS git
+
 npm-base:
     FROM node:21.7-alpine3.19
     COPY ./package.json ./
@@ -95,15 +98,16 @@ lint-newline:
         done; \
         exit $code
 
+update-dist-for-renovate:
     FROM alpine/git
+    RUN git config --global user.name "renovate[bot]" && \
+        git config --global user.email "renovate[bot]@users.noreply.github.com" && \
         git config --global url."git@github.com:".insteadOf "https://github.com/"
 
     ARG git_repo="earthly/actions-setup"
     ARG git_url="git@github.com:$git_repo"
-    ARG earthly_lib_version=3.0.1
     ARG SECRET_PATH=littleredcorvette-id_rsa
-    DO --pass-args github.com/earthly/lib/utils/git:$earthly_lib_version+DEEP_CLONE \
-        --GIT_URL=$git_url --SECRET_PATH=$SECRET_PATH
+    DO --pass-args git+DEEP_CLONE --GIT_URL=$git_url --SECRET_PATH=$SECRET_PATH
 
     ARG EARTHLY_GIT_BRANCH
     LET branch=$EARTHLY_GIT_BRANCH
@@ -122,10 +126,8 @@ merge-release-to-major-branch:
 
     ARG git_repo="earthly/actions-setup"
     ARG git_url="git@github.com:$git_repo"
-    ARG earthly_lib_version=3.0.1
     ARG SECRET_PATH=littleredcorvette-id_rsa
-    DO --pass-args github.com/earthly/lib/utils/git:$earthly_lib_version+DEEP_CLONE \
-        --GIT_URL=$git_url --SECRET_PATH=$SECRET_PATH
+    DO --pass-args git+DEEP_CLONE --GIT_URL=$git_url --SECRET_PATH=$SECRET_PATH
 
     ARG --required RELEASE_TAG
     LET tag=${RELEASE_TAG#refs/tags/}
@@ -133,7 +135,7 @@ merge-release-to-major-branch:
     SET major=$(echo ${major%.*})
     SET major=$(echo ${major%.*})
     RUN --mount=type=secret,id=$SECRET_PATH,mode=0400,target=/root/.ssh/id_rsa \
-         git checkout $major && git merge $tag
+         git checkout $major && git merge --ff-only $tag
     RUN --push --mount=type=secret,id=$SECRET_PATH,mode=0400,target=/root/.ssh/id_rsa \
     git push origin $major
 
