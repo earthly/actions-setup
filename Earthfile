@@ -117,11 +117,6 @@ update-dist-for-renovate:
     RUN --push --mount=type=secret,id=$SECRET_PATH,mode=0400,target=/root/.ssh/id_rsa \
          git push origin $branch
 
-ido-test:
-    FROM alpine
-    ARG EARTHLY_GIT_BRANCH
-    RUN --no-cache echo the branch is $EARTHLY_GIT_BRANCH
-
 all:
     BUILD +lint
     BUILD +lint-newline
