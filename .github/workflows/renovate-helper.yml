@@ -2,6 +2,7 @@ name: Update Renovate Branch
 
 on:
   pull_request:
+    branches: [ main ]
 
 jobs:
   udpate-renovate-branch:
