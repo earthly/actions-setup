@@ -28,7 +28,7 @@
     "@octokit/core": "^4.1.0",
     "@octokit/plugin-paginate-rest": "^5.0.1",
     "jest-playback": "^3.0.0",
-    "make-dir": "^3.1.0",
+    "make-dir": "^4.0.0",
     "mkdirp-promise": "^5.0.1",
     "node-fetch": "^3.2.10",
     "semver": "^7.3.8"
