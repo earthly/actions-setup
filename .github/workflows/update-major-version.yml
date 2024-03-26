@@ -1,0 +1,23 @@
+name: Update Major Version Branch
+
+on:
+    release:
+      types: [released]
+
+jobs:
+  update-major-version-branch:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_COLOR: 1
+      EARTHLY_CONVERSION_PARALLELISM: "5"
+      EARTHLY_TOKEN: "${{ secrets.EARTHLY_TOKEN }}"
+      EARTHLY_INSTALL_ID: "earthly-actions-setup-githubactions"
+    steps:
+      - uses: earthly/actions/setup-earthly@v1
+        with:
+          version: v0.8.6
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - name: Update Branch
+        run: earthly --ci -P +merge-release-to-major-branch --RELEASE_TAG=${{ github.ref }}

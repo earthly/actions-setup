@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   update-renovate-branch:
-    if: github.event.pull_request.head.repo.full_name == github.repository && startsWith(github.head_ref, 'renovate/') && github.head_ref == 'renovate[bot]'
+    if: github.event.pull_request.head.repo.full_name == github.repository && startsWith(github.head_ref, 'renovate/') && github.actor == 'renovate[bot]'
     runs-on: ubuntu-latest
     env:
       FORCE_COLOR: 1
