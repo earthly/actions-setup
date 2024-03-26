@@ -79102,11 +79102,11 @@ var State;
     State["CachePrimaryKey"] = "EARTHLY_CACHE_KEY";
     State["CacheMatchedKey"] = "EARTHLY_CACHE_RESULT";
     State["BinaryPath"] = "EARTHLY_BINARY_PATH";
-})(State = exports.State || (exports.State = {}));
+})(State || (exports.State = State = {}));
 var Outputs;
 (function (Outputs) {
     Outputs["CacheHit"] = "cache-hit";
-})(Outputs = exports.Outputs || (exports.Outputs = {}));
+})(Outputs || (exports.Outputs = Outputs = {}));
 
 
 /***/ }),
