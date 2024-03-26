@@ -95,6 +95,25 @@ lint-newline:
         done; \
         exit $code
 
+    FROM alpine/git
+        git config --global url."git@github.com:".insteadOf "https://github.com/"
+
+    ARG git_repo="earthly/actions-setup"
+    ARG git_url="git@github.com:$git_repo"
+    ARG earthly_lib_version=3.0.1
+    ARG SECRET_PATH=littleredcorvette-id_rsa
+    DO --pass-args github.com/earthly/lib/utils/git:$earthly_lib_version+DEEP_CLONE \
+        --GIT_URL=$git_url --SECRET_PATH=$SECRET_PATH
+
+    ARG EARTHLY_GIT_BRANCH
+    LET branch=$EARTHLY_GIT_BRANCH
+    RUN --mount=type=secret,id=$SECRET_PATH,mode=0400,target=/root/.ssh/id_rsa \
+         git checkout $branch
+    COPY --dir +compile/dist .
+    RUN git add dist && git commit -m "update dist for Renovate" || echo nothing to commit
+    RUN --push --mount=type=secret,id=$SECRET_PATH,mode=0400,target=/root/.ssh/id_rsa \
+         git push origin $branch
+
 merge-release-to-major-branch:
     FROM alpine/git
     RUN git config --global user.name "littleredcorvette" && \
