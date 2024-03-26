@@ -3,6 +3,11 @@
   extends: [
     "config:recommended"
   ],
+  configMigration: true,
+  prHourlyLimit: 1,
+  schedule: [ // utc timezone
+    'after 6am on monday',
+  ],
   labels: [
     'renovate',
   ],
