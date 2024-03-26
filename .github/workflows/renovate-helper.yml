@@ -25,4 +25,4 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
       - name: Update Branch
-        run: earthly --ci -P --push +update-dist
+        run: earthly --ci -P --push +update-dist-for-renovate
