@@ -1,5 +1,7 @@
 VERSION 0.8
 
+PROJECT earthly-technologies/core
+
 npm-base:
     FROM node:21.7-alpine3.19
     COPY ./package.json ./
@@ -93,6 +95,32 @@ lint-newline:
         done; \
         exit $code
 
+update-dist-for-renovate:
+    FROM alpine/git
+    RUN git config --global user.name "renovate[bot]" && \
+        git config --global user.email "renovate[bot]@users.noreply.github.com" && \
+        git config --global url."git@github.com:".insteadOf "https://github.com/"
+
+    ARG git_repo="earthly/actions-setup"
+    ARG git_url="git@github.com:$git_repo"
+    ARG earthly_lib_version=3.0.1
+    ARG SECRET_PATH=littleredcorvette-id_rsa
+    DO --pass-args github.com/earthly/lib/utils/git:$earthly_lib_version+DEEP_CLONE \
+        --GIT_URL=$git_url --SECRET_PATH=$SECRET_PATH
+
+    ARG EARTHLY_GIT_BRANCH
+    LET branch=$EARTHLY_GIT_BRANCH
+    RUN --mount=type=secret,id=$SECRET_PATH,mode=0400,target=/root/.ssh/id_rsa \
+         git checkout $branch
+    COPY --dir +compile/dist .
+    RUN git add dist && git commit -m "update dist for Renovate" || echo nothing to commit
+    RUN --push --mount=type=secret,id=$SECRET_PATH,mode=0400,target=/root/.ssh/id_rsa \
+         git push origin $branch
+
+ido-test:
+    FROM alpine
+    ARG EARTHLY_GIT_BRANCH
+    RUN --no-cache echo the branch is $EARTHLY_GIT_BRANCH
 
 all:
     BUILD +lint
