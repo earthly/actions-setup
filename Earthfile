@@ -23,7 +23,7 @@ code:
 
 lint:
     FROM +code
-    COPY .eslintrc.js .
+    COPY .eslintrc.cjs .
     RUN npm run-script lint
 
 compile:
@@ -44,7 +44,7 @@ test-compile-was-run:
 test:
     FROM +code
     COPY tsconfig.json .
-    COPY jest.config.js .
+    COPY vite.config.ts vitest.config.ts .
     RUN npm test
 
 test-run:
