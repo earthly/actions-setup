@@ -8,6 +8,11 @@
   schedule: [ // utc timezone
     'after 6am on monday',
   ],
+  dockerfile: {
+    fileMatch: [
+      'Earthfile',
+    ],
+  },
   labels: [
     'renovate',
   ],
