@@ -17,6 +17,10 @@ env:
 jobs:
   unit:
     name: earthly +all
+    env:
+      FORCE_COLOR: 1
+      EARTHLY_CONVERSION_PARALLELISM: "5"
+      EARTHLY_INSTALL_ID: "earthly-actions-setup-githubactions"
     strategy:
       matrix:
         platform: [ubuntu-latest]
