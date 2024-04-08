@@ -27,7 +27,7 @@
     "@actions/io": "^1.1.2",
     "@actions/tool-cache": "^2.0.1",
     "@octokit/core": "^6.0.0",
-    "@octokit/plugin-paginate-rest": "^10.0.0",
+    "@octokit/plugin-paginate-rest": "^11.0.0",
     "make-dir": "^4.0.0",
     "mkdirp-promise": "^5.0.1",
     "node-fetch": "^3.3.2",
