@@ -23,7 +23,7 @@ export async function getVersionObject(
       per_page: 100,
     })
   ).filter(release => {
-    return prerelease || !release.prerelease;
+    return (prerelease || !release.prerelease) && release.assets?.length > 0;
   }).reduce((acc, cur) => {
     // remove 'v' from tag name
     const tag = cur.tag_name.substring(1);
