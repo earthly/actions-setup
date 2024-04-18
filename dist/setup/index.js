@@ -90176,7 +90176,8 @@ async function getVersionObject(range, prerelease) {
         repo: "earthly",
         per_page: 100,
     })).filter(release => {
-        return prerelease || !release.prerelease;
+        // we expect each version to have at least 6 assets before it can be considered as latest available version
+        return (prerelease || !release.prerelease) && release.assets?.length > 5;
     }).reduce((acc, cur) => {
         // remove 'v' from tag name
         const tag = cur.tag_name.substring(1);
