@@ -23,5 +23,10 @@ export function isCacheFeatureAvailable(): boolean {
     return false;
   }
 
+  if (core.getInput('use-cache') !== "true") { 
+    core.info(`skipping cache usage as use-cache is not true`); 
+    return false; 
+  }
+
   return true;
 }

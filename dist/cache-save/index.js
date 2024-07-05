@@ -82917,6 +82917,10 @@ function isCacheFeatureAvailable() {
         }
         return false;
     }
+    if (core.getInput('use-cache') !== "true") {
+        core.info(`skipping cache usage as use-cache is not true`);
+        return false;
+    }
     return true;
 }
 
@@ -82948,10 +82952,6 @@ async function run() {
 }
 const cacheBinary = async () => {
     if (!isCacheFeatureAvailable()) {
-        return;
-    }
-    if (core.getInput('use-cache') !== "true") {
-        core.info(`skipping cache save as use-cache is not true`);
         return;
     }
     const state = core.getState(State.CacheMatchedKey);

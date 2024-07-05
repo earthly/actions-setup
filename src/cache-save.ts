@@ -31,11 +31,6 @@ export const cacheBinary = async () => {
     return;
   }
 
-  if (core.getInput('use-cache') !== "true") {
-    core.info(`skipping cache save as use-cache is not true`);
-    return;
-  }
-
   const state = core.getState(State.CacheMatchedKey);
   const primaryKey = core.getState(State.CachePrimaryKey);
   const path = core.getState(State.BinaryPath);
