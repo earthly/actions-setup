@@ -16,6 +16,7 @@ inputs:
     default: "true"
   github-token:
     description: "GitHub token for fetching Earthly version list."
+    default: ${{ github.token }}
 runs:
   using: node20
   main: dist/setup/index.js
