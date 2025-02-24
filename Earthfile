@@ -6,7 +6,7 @@ ARG EARTHLY_LIB_VERSION=3.0.1
 IMPORT github.com/earthly/lib/utils/git:$EARTHLY_LIB_VERSION AS git
 
 npm-base:
-    FROM node:21.7-alpine3.19
+    FROM node:22.12-alpine3.19
     COPY ./package.json ./
     COPY ./package-lock.json ./
     RUN npm install
