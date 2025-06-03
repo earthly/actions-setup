@@ -1,16 +1,16 @@
 {
-  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
   extends: [
-    "config:recommended"
+    'config:recommended',
   ],
   configMigration: true,
   prHourlyLimit: 1,
-  schedule: [ // utc timezone
+  schedule: [
     'after 6am on monday',
   ],
   dockerfile: {
-    fileMatch: [
-      'Earthfile',
+    managerFilePatterns: [
+      '/Earthfile/',
     ],
   },
   labels: [
@@ -18,23 +18,23 @@
   ],
   packageRules: [
     {
-      // group packages in the same PR according to data source & update type
       matchManagers: [
-        'npm', 'github-actions',
+        'npm',
+        'github-actions',
       ],
       matchUpdateTypes: [
         'minor',
         'patch',
       ],
-      groupName: "{{datasource}} (non-major)",
+      groupName: '{{datasource}} (non-major)',
       addLabels: [
         'non-major',
       ],
     },
     {
-      // add major label to major updates
       matchManagers: [
-        'npm', 'github-actions',
+        'npm',
+        'github-actions',
       ],
       matchUpdateTypes: [
         'major',
