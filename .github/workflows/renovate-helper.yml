@@ -21,7 +21,7 @@ jobs:
       - uses: earthly/actions/setup-earthly@v1
         with:
           version: v0.8.6
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref }}
       - name: Update Branch
