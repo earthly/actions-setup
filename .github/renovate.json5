@@ -43,5 +43,17 @@
         '{{updateType}}',
       ],
     },
+    {
+      // group the node version in GitHub Actions (actions/setup-node
+      // node-version) together with the node Docker image in the Earthfile
+      // (FROM node:...) so they are bumped in a single PR. Both deps share
+      // depName "node".
+      matchDepNames: ['node'],
+      groupName: 'node',
+    },
+    {
+      // automerge all dependency updates
+      automerge: true,
+    },
   ],
 }
